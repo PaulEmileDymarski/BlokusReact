@@ -36,7 +36,7 @@ constructor(props) {
           1,0,0,0,0,
         ],
         id:2,
-        played:true,
+        played:false,
         value:5,
       },
       {
@@ -48,7 +48,7 @@ constructor(props) {
           0,0,0,0,0,
         ],
         id:3,
-        played:true,
+        played:false,
         value:5,
       },
       {
@@ -61,7 +61,7 @@ constructor(props) {
         ],
         id:4,
         value:5,
-        played:true,
+        played:false,
       },
     ],
     board :
@@ -93,6 +93,7 @@ constructor(props) {
   ////////////////////// Put Selected piece in da table ////////////////////
 
   putInBoard() {
+    let placed = false
     this.setState((prevState) => {
       let savedBoard = {}
       let board = {}
@@ -123,19 +124,52 @@ constructor(props) {
         decalageH = 56
       }
 
-      //On vérifie si la pièce ne dépasse pas du tableau en haut ou en bas
+      let verifyDiagonal = false
       for(let i = 0;i < 25;i += 5)
       {
         for(let y = 0;y < 5;y++)
         {
           if (piece[i+y] !== 0)
           {
+            //On vérifie si il n'y a pas de pièce adjacente de meme couleur
+            if (piece[i+y] == 1)
+            {
+              if (board.tab[cmptBoard + y + boardCaseSelected - decalageV- decalageH + 1]  == 1 || board.tab[cmptBoard + y + boardCaseSelected - decalageV- decalageH -1]  == 1 || board.tab[cmptBoard + y + boardCaseSelected - decalageV- decalageH + 14]  == 1 || board.tab[cmptBoard + y + boardCaseSelected - decalageV- decalageH - 14]  == 1)
+              {
+                return { savedBoard }
+              }
+              if (board.tab[cmptBoard + y + boardCaseSelected - decalageV- decalageH + 1 + 14]  == 1 || board.tab[cmptBoard + y + boardCaseSelected - decalageV- decalageH + 1 - 14]  == 1 || board.tab[cmptBoard + y + boardCaseSelected - decalageV- decalageH - 1 + 14]  == 1 || board.tab[cmptBoard + y + boardCaseSelected - decalageV- decalageH - 1 - 14]  == 1)
+              {
+                verifyDiagonal = true
+                console.log("bleu true")
+              }
+            }
+            else
+            {
+              if (board.tab[cmptBoard + y + boardCaseSelected - decalageV- decalageH + 1]  == 2 || board.tab[cmptBoard + y + boardCaseSelected - decalageV- decalageH -1]  == 2 || board.tab[cmptBoard + y + boardCaseSelected - decalageV- decalageH + 14]  == 2 || board.tab[cmptBoard + y + boardCaseSelected - decalageV- decalageH - 14]  == 2)
+               {
+                return { savedBoard }
+               }
+               if (board.tab[cmptBoard + y + boardCaseSelected - decalageV- decalageH + 1 + 14]  == 2 || board.tab[cmptBoard + y + boardCaseSelected - decalageV- decalageH + 1 - 14]  == 2 || board.tab[cmptBoard + y + boardCaseSelected - decalageV- decalageH - 1 + 14]  == 2 || board.tab[cmptBoard + y + boardCaseSelected - decalageV- decalageH - 1 - 14]  == 2)
+               {
+                 verifyDiagonal = true
+                 console.log("red true")
+               }
+            }
+            //On vérifie si la pièce ne dépasse pas du tableau en haut ou en bas
             if ((cmptBoard + y + boardCaseSelected - decalageV- decalageH) > 196 ||  (cmptBoard + y + boardCaseSelected - decalageV- decalageH) < 0) {
+              return { savedBoard }
+            }
+            //Verification si aucune case bleue ne se trouve en dessous de la pièce ou à coté
+            if (board.tab[cmptBoard + y + boardCaseSelected - decalageV- decalageH]  == 1 || board.tab[cmptBoard + y + boardCaseSelected - decalageV- decalageH]  == 2) {
               return { savedBoard }
             }
           }
         }
         cmptBoard += 14
+      }
+      if (verifyDiagonal == false) {
+        return { savedBoard }
       }
 
       //On vérifie si la pièce ne dépasse pas du tableau à droite ou à gauche
@@ -160,15 +194,12 @@ constructor(props) {
         }
         if (typeof firstBlueCase != "undefined")
         {
-          console.log("lastBlueCase",lastBlueCase)
-          console.log("firstBlueCase",firstBlueCase)
+
           if ((cmptBoard+ firstBlueCase + boardCaseSelected - decalageV- decalageH) > 0 && (cmptBoard+ firstBlueCase + boardCaseSelected - decalageV- decalageH) < 14 + 5)
           {
-            console.log("aloooo")
           }
         }
       }
-      //test
 
 
       cmptBoard = 0
@@ -182,14 +213,51 @@ constructor(props) {
             board.tab[cmptBoard + y + boardCaseSelected - decalageV- decalageH]  = piece[i+y]
           }
         }
+        placed = true
         cmptBoard += 14
       }
     return { board }
+  },() => {if(placed == true){this.endTurn()}})
+  }
+
+///////////////////////// Fin de Tour ///////////////////////////
+  endTurn () {
+    this.setState((prevState) => {
+      let newPieces = []
+      newPieces = prevState.pieces
+      let id = 0
+      prevState.pieces.map(piece => {
+        let newPiece = []
+        for(let i = 0;i < 25;i += 5)
+        {
+          for(let y = 0;y < 5;y++)
+          {
+            if (piece.tab[i+y] == 1)
+            {
+              newPiece[i+y] = 2
+            }
+            if (piece.tab[i+y] == 2)
+            {
+              newPiece[i+y] = 1
+            }
+            if (piece.tab[i+y] == 0)
+            {
+              newPiece[i+y] = 0
+            }
+          }
+        }
+        newPieces[(id)].tab = newPiece
+        id = id + 1
+      })
+      return { newPieces }
     })
+  }
+  ////////////////////// End Game ////////////////////
+  endGame () {
+
   }
 
   ////////////////////// Turn Pieces ////////////////////
-
   rotateX (piece) {
     this.setState((prevState) => {
       let pieces = []
@@ -248,15 +316,12 @@ constructor(props) {
   ///////////////////////////// Event //////////////////////////////////
 
   onDragStart(ev, i, piece) {
-    console.log('dragstart',i, piece)
     this.setState((prevState) => {
       let selectedCase = i
-      console.log("SelectedCase",selectedCase)
       return { selectedCase }
     })
     this.setState((prevState) => {
       let selectedPiece = piece
-      console.log("SelectedPiece",selectedPiece)
       return { selectedPiece }
     })
   }
@@ -268,13 +333,9 @@ constructor(props) {
   onDrop(ev, i) {
     this.setState((prevState) => {
       let caseDrop = i
-      console.log("SelectedTabCase",caseDrop)
       return { caseDrop }
     },() => this.putInBoard())
     let id = ev.dataTransfer.getData("id");
-    console.log("Event",ev)
-    console.log("Resutlt state selected case : ",this.state.selectedCase)
-    console.log("Resutlt state selected  piece: ",this.state.selectedPiece)
   }
 
 
@@ -282,8 +343,10 @@ constructor(props) {
   render() {
     return (
       <div>
-        <div class="board"
-      >
+        <div class="board">
+        <div class="endGame">
+          <Button block bsSize="large" onClick={()=>this.endGame()}>Fin du Game</Button>
+        </div>
           {this.state.board.tab.map((color, i) => (
             <span class="case" key={i} >
               <If condition={ i%14 == 0 }>
@@ -312,39 +375,44 @@ constructor(props) {
           )
         }
         </div>
-        <div class="pieces" >
-          <div class="end">
-            <Button block bsSize="large">Fin du Tour</Button>
+        <div class="pieces">
+          <div class="endTurn">
+            <Button block bsSize="large" onClick={()=>this.endTurn()}>Fin du Tour</Button>
           </div>
+
             {this.state.pieces.map(piece => (
-            <div>
-              <div class ="piece"
-               key={piece.id}
-               draggable>
-                {piece.tab.map((color, i) => (
-                  <span class ="case" key={i}>
-                    <If condition={ i%5 == 0 }>
-                     <Then><br></br></Then>
-                    </If>
-                    <If condition={ color == 0 }>
-                      <Then><img src={Blanc} width="28" height="28" draggable="false" id={i} onMouseDown={(e)=>this.onDragStart(e, i ,piece)}/></Then>
-                    </If>
-                    <If condition={ color == 1 }>
-                      <Then><img src={Bleue} width="28" height="28" draggable="false" id={i} onMouseDown={(e)=>this.onDragStart(e, i,piece)}/></Then>
-                    </If>
-                    <If condition={ color == 2 }>
-                      <Then><img src={Rouge} width="28" height="28" draggable="false" id={i} onMouseDown={(e)=>this.onDragStart(e, i,piece)}/></Then>
-                    </If>
-                  </span>
-                ))}
-                <br></br>
-              </div>
-            <button onClick={() => this.rotateX(piece)}> x</button>
-            <button onClick={() => this.rotateY(piece)}> y</button>
-            <button onClick={() => this.rotateZ(piece)}> z</button>
-            <br></br>
-            <br></br>
-            </div>
+              <If condition={ piece.played == false }>
+               <Then>
+               <div>
+                 <div class ="piece"
+                  key={piece.id}
+                  draggable>
+                   {piece.tab.map((color, i) => (
+                     <span class ="case" key={i}>
+                       <If condition={ i%5 == 0 }>
+                        <Then><br></br></Then>
+                       </If>
+                       <If condition={ color == 0 }>
+                         <Then><img src={Blanc} width="28" height="28" draggable="false" id={i} onMouseDown={(e)=>this.onDragStart(e, i ,piece)}/></Then>
+                       </If>
+                       <If condition={ color == 1 }>
+                         <Then><img src={Bleue} width="28" height="28" draggable="false" id={i} onMouseDown={(e)=>this.onDragStart(e, i,piece)}/></Then>
+                       </If>
+                       <If condition={ color == 2 }>
+                         <Then><img src={Rouge} width="28" height="28" draggable="false" id={i} onMouseDown={(e)=>this.onDragStart(e, i,piece)}/></Then>
+                       </If>
+                     </span>
+                   ))}
+                   <br></br>
+                 </div>
+               <button onClick={() => this.rotateX(piece)}> x</button>
+               <button onClick={() => this.rotateY(piece)}> y</button>
+               <button onClick={() => this.rotateZ(piece)}> z</button>
+               <br></br>
+               <br></br>
+               </div>
+               </Then>
+              </If>
           ))}
         </div>
       </div>

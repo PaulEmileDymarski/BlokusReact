@@ -24,6 +24,7 @@ footer, header, hgroup, menu, nav, section {
     display: block;
 }
 body {
+  background-color: white;
     line-height: 1;
 }
 ol, ul {
@@ -51,15 +52,21 @@ table {
 }
 
 .board {
-  float: left;
-  margin-left: 20px;
+  height: 100%;
   width: 440px;
+  position: fixed;
+  z-index: 1;
+  top: 0;
+  left: 0;
+  overflow-x: hidden;
+  padding-top: 20px;
 }
 
 .pieces {
   float: right;
-    text-align: left;
-    height: 800px;
+  text-align: left;
+  height: 800px;
+  margin-right: 250px;
 }
 
 .case {
@@ -74,7 +81,6 @@ table {
 
   width: 150px;
   height:165px;
-  border: 1px solid grey;
 }
 
 .end {
