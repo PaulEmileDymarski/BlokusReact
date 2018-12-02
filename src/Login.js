@@ -11,14 +11,14 @@ class Login extends Component {
       super(props);
 
       this.state = {
-        pseudo: "",
+        username: "",
         email: "",
         password: ""
       };
     }
 
     validateForm() {
-      return this.state.password.length > 0 && this.state.pseudo.length > 0;
+      return this.state.password.length > 0 && this.state.username.length > 0;
     }
 
     handleChange = event => {
@@ -42,7 +42,7 @@ class Login extends Component {
         </Button>
           <div className="Login">
             <form onSubmit={this.handleSubmit}>
-            <FormGroup controlId="pseudo" bsSize="large">
+            <FormGroup controlId="username" bsSize="large">
               <ControlLabel>Pseudo : </ControlLabel>
               <FormControl
                 autoFocus

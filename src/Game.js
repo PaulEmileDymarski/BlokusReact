@@ -15,9 +15,9 @@ class Game extends Component {
 constructor(props) {
   super(props);
   this.state = {
-    pieces:[
+    allPieces:[
       {
-        tab:[
+        shape:[
           0,0,0,0,0,
           0,0,0,0,0,
           0,0,0,0,0,
@@ -25,10 +25,11 @@ constructor(props) {
           0,0,1,1,1,
         ],
         id:1,
-        played:true,
+        played:false,
+        value:4,
       },
       {
-        tab:[
+        shape:[
           1,0,0,0,0,
           1,0,0,0,0,
           1,0,0,0,0,
@@ -39,34 +40,10 @@ constructor(props) {
         played:false,
         value:5,
       },
-      {
-        tab:[
-          0,0,0,1,1,
-          0,0,0,1,1,
-          0,0,0,0,0,
-          0,0,0,0,0,
-          0,0,0,0,0,
-        ],
-        id:3,
-        played:false,
-        value:5,
-      },
-      {
-        tab:[
-          0,0,0,0,0,
-          0,0,0,0,0,
-          1,0,0,0,0,
-          1,0,0,0,0,
-          1,1,1,0,0,
-        ],
-        id:4,
-        value:5,
-        played:false,
-      },
     ],
-    board :
+    game :
     {
-      tab :[
+      currentBoard :[
         2,0,0,0,0,0,0,0,0,0,0,0,0,0,
         2,2,2,0,0,0,0,0,0,0,0,0,0,0,
         0,0,0,2,0,0,0,0,0,0,0,0,0,0,
@@ -81,8 +58,8 @@ constructor(props) {
         0,0,0,0,0,0,0,0,0,0,0,1,1,0,
         0,0,0,0,0,0,0,0,0,0,0,0,1,1,
         0,0,0,0,0,0,0,0,0,0,0,0,0,1],
-        gameId : 1,
-        turn : 1,
+        userId : 1,
+        turn : 2,
     },
     selectedCase:0,
     selectedPiece:0,
@@ -90,17 +67,24 @@ constructor(props) {
    }
   }
 
-  ////////////////////// Put Selected piece in da table ////////////////////
+  fetchData () {
 
+  }
+
+  componentDidMount () {
+    this.fetchData()
+  }
+
+  ////////////////////// Put Selected piece in da table ////////////////////
   putInBoard() {
     let placed = false
     this.setState((prevState) => {
       let savedBoard = {}
-      let board = {}
-      board = prevState.board
-      savedBoard = prevState.board
+      let game = {}
+      game = prevState.game
+      savedBoard = prevState.game
       let piece = []
-      piece = this.state.selectedPiece.tab
+      piece = this.state.selectedPiece.shape
       let cmptBoard = 0
       let decalageV = this.state.selectedCase % 5
       let decalageH = 0
@@ -127,6 +111,8 @@ constructor(props) {
       let verifyDiagonal = false
       for(let i = 0;i < 25;i += 5)
       {
+        let firstCase = "undefined"
+        let lastCase = 0
         for(let y = 0;y < 5;y++)
         {
           if (piece[i+y] !== 0)
@@ -134,119 +120,116 @@ constructor(props) {
             //On vérifie si il n'y a pas de pièce adjacente de meme couleur
             if (piece[i+y] == 1)
             {
-              if (board.tab[cmptBoard + y + boardCaseSelected - decalageV- decalageH + 1]  == 1 || board.tab[cmptBoard + y + boardCaseSelected - decalageV- decalageH -1]  == 1 || board.tab[cmptBoard + y + boardCaseSelected - decalageV- decalageH + 14]  == 1 || board.tab[cmptBoard + y + boardCaseSelected - decalageV- decalageH - 14]  == 1)
+              if (game.currentBoard[cmptBoard + y + boardCaseSelected - decalageV- decalageH + 1]  == 1 || game.currentBoard[cmptBoard + y + boardCaseSelected - decalageV- decalageH -1]  == 1 || game.currentBoard[cmptBoard + y + boardCaseSelected - decalageV- decalageH + 14]  == 1 || game.currentBoard[cmptBoard + y + boardCaseSelected - decalageV- decalageH - 14]  == 1)
               {
+                console.log("c'est de meme couleur adjacent")
                 return { savedBoard }
               }
-              if (board.tab[cmptBoard + y + boardCaseSelected - decalageV- decalageH + 1 + 14]  == 1 || board.tab[cmptBoard + y + boardCaseSelected - decalageV- decalageH + 1 - 14]  == 1 || board.tab[cmptBoard + y + boardCaseSelected - decalageV- decalageH - 1 + 14]  == 1 || board.tab[cmptBoard + y + boardCaseSelected - decalageV- decalageH - 1 - 14]  == 1)
+              //On vérifie si il y a bien au moins une piece en diagonale de meme couleur
+              if (game.currentBoard[cmptBoard + y + boardCaseSelected - decalageV- decalageH + 1 + 14]  == 1 || game.currentBoard[cmptBoard + y + boardCaseSelected - decalageV- decalageH + 1 - 14]  == 1 || game.currentBoard[cmptBoard + y + boardCaseSelected - decalageV- decalageH - 1 + 14]  == 1 || game.currentBoard[cmptBoard + y + boardCaseSelected - decalageV- decalageH - 1 - 14]  == 1)
               {
                 verifyDiagonal = true
-                console.log("bleu true")
               }
             }
+            //pareil pour le coté rouge
             else
             {
-              if (board.tab[cmptBoard + y + boardCaseSelected - decalageV- decalageH + 1]  == 2 || board.tab[cmptBoard + y + boardCaseSelected - decalageV- decalageH -1]  == 2 || board.tab[cmptBoard + y + boardCaseSelected - decalageV- decalageH + 14]  == 2 || board.tab[cmptBoard + y + boardCaseSelected - decalageV- decalageH - 14]  == 2)
+              if (game.currentBoard[cmptBoard + y + boardCaseSelected - decalageV- decalageH + 1]  == 2 || game.currentBoard[cmptBoard + y + boardCaseSelected - decalageV- decalageH -1]  == 2 || game.currentBoard[cmptBoard + y + boardCaseSelected - decalageV- decalageH + 14]  == 2 || game.currentBoard[cmptBoard + y + boardCaseSelected - decalageV- decalageH - 14]  == 2)
                {
+                 console.log("c'est de meme couleur adjacent'")
                 return { savedBoard }
                }
-               if (board.tab[cmptBoard + y + boardCaseSelected - decalageV- decalageH + 1 + 14]  == 2 || board.tab[cmptBoard + y + boardCaseSelected - decalageV- decalageH + 1 - 14]  == 2 || board.tab[cmptBoard + y + boardCaseSelected - decalageV- decalageH - 1 + 14]  == 2 || board.tab[cmptBoard + y + boardCaseSelected - decalageV- decalageH - 1 - 14]  == 2)
+               if (game.currentBoard[cmptBoard + y + boardCaseSelected - decalageV- decalageH + 1 + 14]  == 2 || game.currentBoard[cmptBoard + y + boardCaseSelected - decalageV- decalageH + 1 - 14]  == 2 || game.currentBoard[cmptBoard + y + boardCaseSelected - decalageV- decalageH - 1 + 14]  == 2 || game.currentBoard[cmptBoard + y + boardCaseSelected - decalageV- decalageH - 1 - 14]  == 2)
                {
                  verifyDiagonal = true
-                 console.log("red true")
                }
             }
             //On vérifie si la pièce ne dépasse pas du tableau en haut ou en bas
             if ((cmptBoard + y + boardCaseSelected - decalageV- decalageH) > 196 ||  (cmptBoard + y + boardCaseSelected - decalageV- decalageH) < 0) {
+              console.log("ca depasse en haut ou en bas")
               return { savedBoard }
             }
-            //Verification si aucune case bleue ne se trouve en dessous de la pièce ou à coté
-            if (board.tab[cmptBoard + y + boardCaseSelected - decalageV- decalageH]  == 1 || board.tab[cmptBoard + y + boardCaseSelected - decalageV- decalageH]  == 2) {
+            //On prend l'info de la première et dernière case de couleur de chaque ligne
+            if (piece[i+y] == 1 || piece[i+y] == 2)
+            {
+              if (firstCase == "undefined")
+              {
+                firstCase = y
+              }
+              else
+              {
+                lastCase = y
+              }
+            }
+            //Verification si aucune case ne se trouve en dessous de la pièce
+            if (game.currentBoard[cmptBoard + y + boardCaseSelected - decalageV- decalageH]  == 1 || game.currentBoard[cmptBoard + y + boardCaseSelected - decalageV- decalageH]  == 2)
+            {
+              console.log("ya un truc en dessous")
               return { savedBoard }
             }
+          }
+        }
+        if (firstCase != "undefined")
+        {
+          //~~((cmptBoard+ firstCase + boardCaseSelected - decalageV- decalageH) / 14)  != ~~((cmptBoard+ lastCase + boardCaseSelected - decalageV- decalageH) / 14)
+          if (Math.floor((firstCase + boardCaseSelected - decalageH - decalageV)/14) != (Math.floor((lastCase + boardCaseSelected - decalageH - decalageV)/14)))
+          {
+            console.log("ca depasse a droite ou a gauche")
+            return { savedBoard }
           }
         }
         cmptBoard += 14
       }
       if (verifyDiagonal == false) {
+        console.log("c'est pas diagonale")
         return { savedBoard }
       }
 
-      //On vérifie si la pièce ne dépasse pas du tableau à droite ou à gauche
-      for(let a = 0;a < 25;a += 5)
-      {
-        var firstBlueCase = -1
-        var lastBlueCase = 0
-        for(let b = 0;b < 5;b++)
-        {
-          if (piece[a+b] == 1)
-          {
-
-            if (firstBlueCase >= 0)
-            {
-              lastBlueCase = b
-            }
-            else
-            {
-              firstBlueCase = b
-            }
-          }
-        }
-        if (typeof firstBlueCase != "undefined")
-        {
-
-          if ((cmptBoard+ firstBlueCase + boardCaseSelected - decalageV- decalageH) > 0 && (cmptBoard+ firstBlueCase + boardCaseSelected - decalageV- decalageH) < 14 + 5)
-          {
-          }
-        }
-      }
-
-
-      cmptBoard = 0
       //Boucle qui place la pièce dans le tableau
+      cmptBoard = 0
       for(let i = 0;i < 25;i += 5)
       {
         for(let y = 0;y < 5;y++)
         {
           if (piece[i+y] !== 0)
           {
-            board.tab[cmptBoard + y + boardCaseSelected - decalageV- decalageH]  = piece[i+y]
+            game.currentBoard[cmptBoard + y + boardCaseSelected - decalageV- decalageH]  = piece[i+y]
           }
         }
         placed = true
         cmptBoard += 14
       }
-    return { board }
-  },() => {if(placed == true){this.endTurn()}})
+    return { game }
+    },() => {if(placed == true){this.endTurn()}})
   }
 
 ///////////////////////// Fin de Tour ///////////////////////////
   endTurn () {
     this.setState((prevState) => {
       let newPieces = []
-      newPieces = prevState.pieces
+      newPieces = prevState.allPieces
       let id = 0
-      prevState.pieces.map(piece => {
+      prevState.allPieces.map(piece => {
         let newPiece = []
         for(let i = 0;i < 25;i += 5)
         {
           for(let y = 0;y < 5;y++)
           {
-            if (piece.tab[i+y] == 1)
+            if (piece.shape[i+y] == 1)
             {
               newPiece[i+y] = 2
             }
-            if (piece.tab[i+y] == 2)
+            if (piece.shape[i+y] == 2)
             {
               newPiece[i+y] = 1
             }
-            if (piece.tab[i+y] == 0)
+            if (piece.shape[i+y] == 0)
             {
               newPiece[i+y] = 0
             }
           }
         }
-        newPieces[(id)].tab = newPiece
+        newPieces[(id)].shape = newPiece
         id = id + 1
       })
       return { newPieces }
@@ -261,17 +244,17 @@ constructor(props) {
   rotateX (piece) {
     this.setState((prevState) => {
       let pieces = []
-      pieces = prevState.pieces
+      pieces = prevState.allPieces
       let newPiece = []
       for(let i=0;i<5;i++)
       {
-        newPiece[i]=piece.tab[i+20]
-        newPiece[i+5]=piece.tab[i+15]
-        newPiece[i+10]=piece.tab[i+10]
-        newPiece[i+15]=piece.tab[i+5]
-        newPiece[i+20]=piece.tab[i]
+        newPiece[i]=piece.shape[i+20]
+        newPiece[i+5]=piece.shape[i+15]
+        newPiece[i+10]=piece.shape[i+10]
+        newPiece[i+15]=piece.shape[i+5]
+        newPiece[i+20]=piece.shape[i]
       }
-      pieces[(piece.id)-1].tab = newPiece
+      pieces[(piece.id)-1].shape = newPiece
       return { pieces }
     })
   }
@@ -279,17 +262,17 @@ constructor(props) {
   rotateY (piece) {
     this.setState((prevState) => {
       let pieces = []
-      pieces = prevState.pieces
+      pieces = prevState.allPieces
       let newPiece = []
       for(let i=0;i<25;i=i+5)
       {
-        newPiece[i]=piece.tab[i+4]
-        newPiece[i+1]=piece.tab[i+3]
-        newPiece[i+2]=piece.tab[i+2]
-        newPiece[i+3]=piece.tab[i+1]
-        newPiece[i+4]=piece.tab[i]
+        newPiece[i]=piece.shape[i+4]
+        newPiece[i+1]=piece.shape[i+3]
+        newPiece[i+2]=piece.shape[i+2]
+        newPiece[i+3]=piece.shape[i+1]
+        newPiece[i+4]=piece.shape[i]
       }
-      pieces[(piece.id)-1].tab = newPiece
+      pieces[(piece.id)-1].shape = newPiece
       return { pieces }
     })
   }
@@ -297,24 +280,23 @@ constructor(props) {
   rotateZ (piece) {
     this.setState((prevState) => {
       let pieces = []
-      pieces = prevState.pieces
+      pieces = prevState.allPieces
       let newPiece = []
       for(let i=0;i<25;i=i+5)
       {
         let y = i/5
-        newPiece[i]=piece.tab[4-y]
-        newPiece[i+1]=piece.tab[9-y]
-        newPiece[i+2]=piece.tab[14-y]
-        newPiece[i+3]=piece.tab[19-y]
-        newPiece[i+4]=piece.tab[24-y]
+        newPiece[i]=piece.shape[4-y]
+        newPiece[i+1]=piece.shape[9-y]
+        newPiece[i+2]=piece.shape[14-y]
+        newPiece[i+3]=piece.shape[19-y]
+        newPiece[i+4]=piece.shape[24-y]
       }
-      pieces[(piece.id)-1].tab = newPiece
+      pieces[(piece.id)-1].shape = newPiece
       return { pieces }
     })
   }
 
-  ///////////////////////////// Event //////////////////////////////////
-
+  ///////////////////////////// Event Drag&Drop //////////////////////////////////
   onDragStart(ev, i, piece) {
     this.setState((prevState) => {
       let selectedCase = i
@@ -345,9 +327,10 @@ constructor(props) {
       <div>
         <div class="board">
         <div class="endGame">
-          <Button block bsSize="large" onClick={()=>this.endGame()}>Fin du Game</Button>
+          <Button block bsSize="large" onClick={()=>this.endGame()}><Link to="/"> Fin du Game </Link></Button>
+
         </div>
-          {this.state.board.tab.map((color, i) => (
+          {this.state.game.currentBoard.map((color, i) => (
             <span class="case" key={i} >
               <If condition={ i%14 == 0 }>
                 <Then><br></br></Then>
@@ -379,15 +362,14 @@ constructor(props) {
           <div class="endTurn">
             <Button block bsSize="large" onClick={()=>this.endTurn()}>Fin du Tour</Button>
           </div>
-
-            {this.state.pieces.map(piece => (
+            {this.state.allPieces.map(piece => (
               <If condition={ piece.played == false }>
                <Then>
                <div>
                  <div class ="piece"
                   key={piece.id}
                   draggable>
-                   {piece.tab.map((color, i) => (
+                   {piece.shape.map((color, i) => (
                      <span class ="case" key={i}>
                        <If condition={ i%5 == 0 }>
                         <Then><br></br></Then>

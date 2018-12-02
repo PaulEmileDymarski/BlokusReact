@@ -11,14 +11,14 @@ class SignIn extends Component {
       super(props);
 
       this.state = {
-        pseudo: "",
+        username: "",
         email: "",
         password: ""
       };
     }
 
     validateForm() {
-      return this.state.email.length > 0 && this.state.password.length > 0 && this.state.pseudo.length > 0;
+      return this.state.email.length > 0 && this.state.password.length > 0 && this.state.username.length > 0;
     }
 
     handleChange = event => {
@@ -29,6 +29,11 @@ class SignIn extends Component {
 
     handleSubmit = event => {
       event.preventDefault();
+    }
+
+    createUser() {
+      info = fetch("https://localhost:3000/user")
+      console.log(info)
     }
 
     render() {
@@ -46,11 +51,11 @@ class SignIn extends Component {
           <div className="Login">
             <form onSubmit={this.handleSubmit}>
             <FormGroup controlId="pseudo" bsSize="large">
-              <ControlLabel>Pseudo : </ControlLabel>
+              <ControlLabel>Username : </ControlLabel>
               <FormControl
                 autoFocus
-                type="pseudo"
-                value={this.state.pseudo}
+                type="username"
+                value={this.state.username}
                 onChange={this.handleChange}
               />
             </FormGroup>
@@ -74,6 +79,7 @@ class SignIn extends Component {
               <Button
                 block
                 bsSize="large"
+                onClick={()=>this.createUser()}
                 disabled={!this.validateForm()}
                 type="submit"
               >
