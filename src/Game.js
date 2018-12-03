@@ -219,7 +219,7 @@ constructor(props) {
 
 ///////////////////////// Fin de Tour ///////////////////////////
   endTurn () {
-    fetch("https://localhost:4000/endturn/"+this.state.game.id+"/"+this.selectedPiece.id)
+    fetch("https://localhost:4000/endturn/"+this.state.game.id+"/"+this.state.selectedPiece.id)
     .then(response => response.json())
     .then(data => this.setState({ data }));
     this.setState((prevState) => {
@@ -254,7 +254,8 @@ constructor(props) {
   }
   ////////////////////// End Game ////////////////////
   endGame () {
-
+    fetch("https://localhost:4000/endgame/"+this.state.game.id)
+    .then(response => response.json())
   }
 
   ////////////////////// Turn Pieces ////////////////////
@@ -344,7 +345,7 @@ constructor(props) {
       <div>
         <div class="board">
         <div class="endGame">
-          <Button block bsSize="large" onClick={()=>this.endGame()}><Link to="/"> Fin du Game </Link></Button>
+          <Button block bsSize="large" onClick={() => { if (window.confirm('Are you sure you want to end the game ?')){this.endGame()}}}><Link to="/"> Fin du Game </Link></Button>
 
         </div>
           {this.state.game.currentBoard.map((color, i) => (

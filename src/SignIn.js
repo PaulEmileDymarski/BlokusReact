@@ -33,13 +33,20 @@ class SignIn extends Component {
 
     handleSubmit = event => {
       event.preventDefault();
-      const data = this.state
+      let data = this.state
+      data = ({username : this.state.username, email : this.state.email, password :this.state.password})
       console.log(data)
-      fetch("https://localhost:3000/user", {mode:'no-cors', method:'post', body:data})
-      .then(res => {
-        console.log(res)
-        return res.json()
-      })
+      fetch("http://localhost:3000/test/user", {method:'POST', headers: {'Content-Type':'application/x-www-form-urlencoded'},
+      body: {"username" : this.state.username, "email" : this.state.email, "password" : this.state.password}})
+      .then(response => {
+        if (response.ok) {
+          response.json().then(json => {
+            console.log(json);
+          });
+        }
+      }).catch(error => {
+        return error;
+    });
     }
 
 

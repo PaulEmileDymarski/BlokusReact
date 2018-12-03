@@ -14,7 +14,7 @@ class Login extends Component {
           username: "",
           email: "",
           password: "",
-        connect:false
+          connect:false
       }
     }
 
@@ -27,7 +27,9 @@ class Login extends Component {
     }
 
     tryLogin() {
-      fetch("https://localhost:4000/co")
+      const data = this.state
+      console.log(data)
+      fetch("http://localhost:4000/co", {mode:'no-cors', method:'GET', body:data})
       .then(res => {
         console.log(res)
         return res.json()
