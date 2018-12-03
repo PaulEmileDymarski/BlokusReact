@@ -15,7 +15,7 @@ class Profil extends Component {
     }
 
     FetchData() {
-      fetch("https://localhost:4000/user/"+this.state.name)
+      fetch("https://localhost:4000/user/"+this.props.match.params.username)
       .then(res => {
         console.log(res)
         return res.json()

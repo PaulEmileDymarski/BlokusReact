@@ -23,17 +23,7 @@ class Login extends Component {
     }
 
     validateConnection() {
-      return this.state.connect == true
-    }
-
-    tryLogin() {
-      const data = this.state
-      console.log(data)
-      fetch("http://localhost:4000/co", {mode:'no-cors', method:'GET', body:data})
-      .then(res => {
-        console.log(res)
-        return res.json()
-      })
+      return this.state.connect = true
     }
 
     handleChange = event => {
@@ -44,6 +34,24 @@ class Login extends Component {
 
     handleSubmit = event => {
       event.preventDefault();
+      let data = this.state
+      data = { username : this.state.username, password :this.state.password }
+      console.log(data)
+      fetch("http://localhost:3000/test/connect", {
+        method:'POST',
+        headers: {'Content-Type':'application/json'},
+        body: JSON.stringify(data)})
+        .then(response => {
+          if (response.ok) {
+            this.setState((prevState) => {
+              let newState = this.prevState
+              newState.connect = true
+              return { newState }
+            })
+          }
+        }).catch(error => {
+        return error;
+        });
     }
 
     render() {
@@ -76,7 +84,6 @@ class Login extends Component {
               <Button
                 block
                 bsSize="large"
-                onClick={()=>this.tryLogin()}
                 disabled={!this.validateForm()}
                 type="submit">
                 Login
@@ -84,17 +91,17 @@ class Login extends Component {
             </form>
           </div>
           <div>
+
             <Button block
-                    disabled={this.validateConnection()}
-                    bsSize="large">
-            <Link to={"/game/" + this.state.username}>
-            Jouer </Link>
+                    bsSize="large"
+                    disabled={this.state.connect}>
+                    <Link to={"/game/"+this.state.username}> Jouer </Link>
             </Button>
 
             <Button block
                     disabled={this.state.connect}
                     bsSize="large">
-            <Link to={"/profil/" + this.state.username}>Profil </Link>
+                    <Link to={"/profil/"+this.state.username}> Profile </Link>
             </Button>
           </div>
         </div>

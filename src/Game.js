@@ -69,10 +69,20 @@ constructor(props) {
   }
 
   startGame () {
-    fetch("https://localhost:4000/newgame/:username")
-    .then(response => response.json())
-    .then(data => this.setState({ data }));
+    fetch("http://localhost:3000/newgame/"+this.props.match.params.username, {
+      method:'GET',
+      headers: {'Content-Type':'application/json'}})
+      .then(response => {
+        if (response.ok) {
+          this.setState((prevState) => {
+            return { response }
+          })
+        }
+      }).catch(error => {
+      return error;
+      });
     }
+
 
   componentDidMount () {
     this.startGame()
@@ -227,8 +237,13 @@ constructor(props) {
 ///////////////////////// Fin de Tour ///////////////////////////
   endTurn () {
     fetch("https://localhost:4000/endturn/"+this.state.game.id+"/"+this.state.selectedPiece.id)
-    .then(response => response.json())
-    .then(data => this.setState({ data }));
+      .then(response => response.json())
+      .then(data => this.setState({ game : data.game, allPieces: data.allPieces }))
+      .catch(error => {
+      return error;
+      });
+
+
     this.setState((prevState) => {
       let newPieces = []
       newPieces = prevState.allPieces
@@ -352,7 +367,7 @@ constructor(props) {
       <div>
         <div class="board">
         <div class="endGame">
-          <Button block bsSize="large" onClick={() => { if (window.confirm('Are you sure you want to end the game ?')){this.endGame()}}}><Link to="/"> Fin du Game </Link></Button>
+          <Button block bsSize="large"  onClick={() => { if (window.confirm('Are you sure you want to end the game ?')){this.endGame()}}}><Link to="/"> Fin du Game </Link></Button>
 
         </div>
           {this.state.game.currentBoard.map((color, i) => (
