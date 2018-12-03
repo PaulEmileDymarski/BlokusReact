@@ -21,16 +21,6 @@ class Home extends Component {
                 bsSize="large">
         <Link to="/login">Se Connecter </Link>
         </Button>
-
-        <Button block
-                bsSize="large">
-        <Link to="/game/1">Jouer </Link>
-        </Button>
-
-        <Button block
-                bsSize="large">
-        <Link to="/profil/1">Profil </Link>
-        </Button>
       </div>
     )
   }

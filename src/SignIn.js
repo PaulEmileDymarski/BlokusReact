@@ -21,6 +21,14 @@ class SignIn extends Component {
       return this.state.email.length > 0 && this.state.password.length > 0 && this.state.username.length > 0;
     }
 
+    createUser() {
+      fetch("https://localhost:4000/user")
+      .then(res => {
+        console.log(res)
+        return res.json()
+      })
+    }
+
     handleChange = event => {
       this.setState({
         [event.target.id]: event.target.value
@@ -31,10 +39,7 @@ class SignIn extends Component {
       event.preventDefault();
     }
 
-    createUser() {
-      info = fetch("https://localhost:3000/user")
-      console.log(info)
-    }
+
 
     render() {
 
@@ -50,7 +55,7 @@ class SignIn extends Component {
         </Button>
           <div className="Login">
             <form onSubmit={this.handleSubmit}>
-            <FormGroup controlId="pseudo" bsSize="large">
+            <FormGroup controlId="username" bsSize="large">
               <ControlLabel>Username : </ControlLabel>
               <FormControl
                 autoFocus

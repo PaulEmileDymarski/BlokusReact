@@ -9,15 +9,15 @@ class Profil extends Component {
 
 
     state = {
-        user: {
-          name: "jojo",
-          winrate: 59,
-          totalgame : 152,
-        }
+      
     }
 
     FetchData() {
-
+      fetch("https://localhost:4000/user/mel")
+      .then(res => {
+        console.log(res)
+        return res.json()
+      })
     }
 
     componentDidMount = () => {

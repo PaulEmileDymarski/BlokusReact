@@ -11,14 +11,29 @@ class Login extends Component {
       super(props);
 
       this.state = {
-        username: "",
-        email: "",
-        password: ""
-      };
+        user :{
+          username: "",
+          email: "",
+          password: ""
+        },
+        connect:false
+      }
     }
 
     validateForm() {
-      return this.state.password.length > 0 && this.state.username.length > 0;
+      return this.state.user.password.length > 0 && this.state.user.username.length > 0;
+    }
+
+    validateConnection() {
+      return this.state.connect == true
+    }
+
+    tryLogin() {
+      fetch("https://localhost:4000/co")
+      .then(res => {
+        console.log(res)
+        return res.json()
+      })
     }
 
     handleChange = event => {
@@ -35,7 +50,6 @@ class Login extends Component {
 
       return (
         <div>
-
         <Button block
                 bsSize="large">
         <Link to="/">Home </Link>
@@ -47,14 +61,14 @@ class Login extends Component {
               <FormControl
                 autoFocus
                 type="pseudo"
-                value={this.state.pseudo}
+                value={this.state.user.pseudo}
                 onChange={this.handleChange}
               />
               </FormGroup>
               <FormGroup controlId="password" bsSize="large">
                 <ControlLabel>Password : </ControlLabel>
                 <FormControl
-                  value={this.state.password}
+                  value={this.state.user.password}
                   onChange={this.handleChange}
                   type="password"
                 />
@@ -62,12 +76,26 @@ class Login extends Component {
               <Button
                 block
                 bsSize="large"
+                onClick={()=>this.tryLogin()}
                 disabled={!this.validateForm()}
-                type="submit"
-              >
+                type="submit">
                 Login
               </Button>
             </form>
+          </div>
+          <div>
+            <Button block
+                    disabled={this.validateConnection()}
+                    bsSize="large">
+            <Link to={"/game/" + this.state.user.username}>
+            Jouer </Link>
+            </Button>
+
+            <Button block
+                    disabled={!this.validateConnection()}
+                    bsSize="large">
+            <Link to={"/profil/" + this.state.user.username}>Profil </Link>
+            </Button>
           </div>
         </div>
       );

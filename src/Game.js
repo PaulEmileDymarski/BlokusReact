@@ -67,12 +67,16 @@ constructor(props) {
    }
   }
 
-  fetchData () {
-
+  startGame () {
+    fetch("https://localhost:4000/newgame/:username")
+    .then(res => {
+      console.log(res)
+      return res.json()
+    })
   }
 
   componentDidMount () {
-    this.fetchData()
+    this.startGame()
   }
 
   ////////////////////// Put Selected piece in da table ////////////////////
@@ -120,13 +124,19 @@ constructor(props) {
             //On vérifie si il n'y a pas de pièce adjacente de meme couleur
             if (piece[i+y] == 1)
             {
-              if (game.currentBoard[cmptBoard + y + boardCaseSelected - decalageV- decalageH + 1]  == 1 || game.currentBoard[cmptBoard + y + boardCaseSelected - decalageV- decalageH -1]  == 1 || game.currentBoard[cmptBoard + y + boardCaseSelected - decalageV- decalageH + 14]  == 1 || game.currentBoard[cmptBoard + y + boardCaseSelected - decalageV- decalageH - 14]  == 1)
+              if (game.currentBoard[cmptBoard + y + boardCaseSelected - decalageV- decalageH + 1]  == 1 ||
+                  game.currentBoard[cmptBoard + y + boardCaseSelected - decalageV- decalageH -1]  == 1 ||
+                  game.currentBoard[cmptBoard + y + boardCaseSelected - decalageV- decalageH + 14]  == 1 ||
+                  game.currentBoard[cmptBoard + y + boardCaseSelected - decalageV- decalageH - 14]  == 1)
               {
                 console.log("c'est de meme couleur adjacent")
                 return { savedBoard }
               }
               //On vérifie si il y a bien au moins une piece en diagonale de meme couleur
-              if (game.currentBoard[cmptBoard + y + boardCaseSelected - decalageV- decalageH + 1 + 14]  == 1 || game.currentBoard[cmptBoard + y + boardCaseSelected - decalageV- decalageH + 1 - 14]  == 1 || game.currentBoard[cmptBoard + y + boardCaseSelected - decalageV- decalageH - 1 + 14]  == 1 || game.currentBoard[cmptBoard + y + boardCaseSelected - decalageV- decalageH - 1 - 14]  == 1)
+              if (game.currentBoard[cmptBoard + y + boardCaseSelected - decalageV- decalageH + 1 + 14]  == 1 ||
+                  game.currentBoard[cmptBoard + y + boardCaseSelected - decalageV- decalageH + 1 - 14]  == 1 ||
+                  game.currentBoard[cmptBoard + y + boardCaseSelected - decalageV- decalageH - 1 + 14]  == 1 ||
+                  game.currentBoard[cmptBoard + y + boardCaseSelected - decalageV- decalageH - 1 - 14]  == 1)
               {
                 verifyDiagonal = true
               }
@@ -134,12 +144,18 @@ constructor(props) {
             //pareil pour le coté rouge
             else
             {
-              if (game.currentBoard[cmptBoard + y + boardCaseSelected - decalageV- decalageH + 1]  == 2 || game.currentBoard[cmptBoard + y + boardCaseSelected - decalageV- decalageH -1]  == 2 || game.currentBoard[cmptBoard + y + boardCaseSelected - decalageV- decalageH + 14]  == 2 || game.currentBoard[cmptBoard + y + boardCaseSelected - decalageV- decalageH - 14]  == 2)
+              if (game.currentBoard[cmptBoard + y + boardCaseSelected - decalageV- decalageH + 1]  == 2 ||
+                  game.currentBoard[cmptBoard + y + boardCaseSelected - decalageV- decalageH -1]  == 2 ||
+                  game.currentBoard[cmptBoard + y + boardCaseSelected - decalageV- decalageH + 14]  == 2 ||
+                  game.currentBoard[cmptBoard + y + boardCaseSelected - decalageV- decalageH - 14]  == 2)
                {
                  console.log("c'est de meme couleur adjacent'")
                 return { savedBoard }
                }
-               if (game.currentBoard[cmptBoard + y + boardCaseSelected - decalageV- decalageH + 1 + 14]  == 2 || game.currentBoard[cmptBoard + y + boardCaseSelected - decalageV- decalageH + 1 - 14]  == 2 || game.currentBoard[cmptBoard + y + boardCaseSelected - decalageV- decalageH - 1 + 14]  == 2 || game.currentBoard[cmptBoard + y + boardCaseSelected - decalageV- decalageH - 1 - 14]  == 2)
+               if (game.currentBoard[cmptBoard + y + boardCaseSelected - decalageV- decalageH + 1 + 14]  == 2 ||
+                   game.currentBoard[cmptBoard + y + boardCaseSelected - decalageV- decalageH + 1 - 14]  == 2 ||
+                   game.currentBoard[cmptBoard + y + boardCaseSelected - decalageV- decalageH - 1 + 14]  == 2 ||
+                   game.currentBoard[cmptBoard + y + boardCaseSelected - decalageV- decalageH - 1 - 14]  == 2)
                {
                  verifyDiagonal = true
                }
