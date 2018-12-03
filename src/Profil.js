@@ -9,17 +9,19 @@ class Profil extends Component {
 
 
     state = {
-      name:"",
+      username: this.props.match.params.username,
       winrate:"",
       totalgame:"",
+      totalwin:"",
     }
 
     FetchData() {
-      fetch("https://localhost:4000/user/"+this.props.match.params.username)
-      .then(res => {
-        console.log(res)
-        return res.json()
-      })
+      fetch("https://localhost:3000/user/"+this.props.match.params.username)
+      .then(response => response.json())
+      .then(data => this.setState({ name : data.username, winrate : data.winrate, totalgame : data.totalgame, totalwin : data.totalwin}))
+      .catch(error => {
+      return error;
+      });
     }
 
     componentDidMount = () => {
@@ -33,16 +35,24 @@ class Profil extends Component {
                   bsSize="large">
           <Link to="/">Home </Link>
           </Button>
+          <Button block
+                  bsSize="large"
+                  disabled={this.state.connect}>
+                  <Link to={"/game/"+this.state.username}> New Game </Link>
+          </Button>
           <ul>
             {this.FetchData()}
               <li>
-              Nom du profil : {this.state.name}
+              Nom de l'utilisateur : {this.state.username}
               </li>
               <li>
-              Win rate : {this.state.winrate}
+              Win rate : {this.state.winrate} %
               </li>
               <li>
-              Total de parties : {this.state.totalgame}
+              Total de parties : {this.state.totalgame} games
+              </li>
+              <li>
+              Total de parties gagnées : {this.state.totalwin} wins
               </li>
           </ul>
         </div>

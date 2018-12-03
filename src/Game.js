@@ -236,7 +236,7 @@ constructor(props) {
 
 ///////////////////////// Fin de Tour ///////////////////////////
   endTurn () {
-    fetch("https://localhost:4000/endturn/"+this.state.game.id+"/"+this.state.selectedPiece.id)
+    fetch("https://localhost:3000/endturn/"+this.state.game.id+"/"+this.state.selectedPiece.id)
       .then(response => response.json())
       .then(data => this.setState({ game : data.game, allPieces: data.allPieces }))
       .catch(error => {
