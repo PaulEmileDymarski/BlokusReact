@@ -43,6 +43,7 @@ constructor(props) {
     ],
     game :
     {
+      id :1,
       currentBoard :[
         2,0,0,0,0,0,0,0,0,0,0,0,0,0,
         2,2,2,0,0,0,0,0,0,0,0,0,0,0,
@@ -69,11 +70,9 @@ constructor(props) {
 
   startGame () {
     fetch("https://localhost:4000/newgame/:username")
-    .then(res => {
-      console.log(res)
-      return res.json()
-    })
-  }
+    .then(response => response.json())
+    .then(data => this.setState({ data }));
+    }
 
   componentDidMount () {
     this.startGame()
@@ -187,7 +186,6 @@ constructor(props) {
         }
         if (firstCase != "undefined")
         {
-          //~~((cmptBoard+ firstCase + boardCaseSelected - decalageV- decalageH) / 14)  != ~~((cmptBoard+ lastCase + boardCaseSelected - decalageV- decalageH) / 14)
           if (Math.floor((firstCase + boardCaseSelected - decalageH - decalageV)/14) != (Math.floor((lastCase + boardCaseSelected - decalageH - decalageV)/14)))
           {
             console.log("ca depasse a droite ou a gauche")
@@ -221,6 +219,9 @@ constructor(props) {
 
 ///////////////////////// Fin de Tour ///////////////////////////
   endTurn () {
+    fetch("https://localhost:4000/endturn/"+this.state.game.id+"/"+this.selectedPiece.id)
+    .then(response => response.json())
+    .then(data => this.setState({ data }));
     this.setState((prevState) => {
       let newPieces = []
       newPieces = prevState.allPieces

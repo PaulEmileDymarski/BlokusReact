@@ -9,7 +9,9 @@ class Profil extends Component {
 
 
     state = {
-      
+      name:"",
+      winrate:"",
+      totalgame:"",
     }
 
     FetchData() {
@@ -34,13 +36,13 @@ class Profil extends Component {
           <ul>
             {this.FetchData()}
               <li>
-              Nom du profil : {this.state.user.name}
+              Nom du profil : {this.state.name}
               </li>
               <li>
-              Win rate : {this.state.user.winrate}
+              Win rate : {this.state.winrate}
               </li>
               <li>
-              Total de parties : {this.state.user.totalgame}
+              Total de parties : {this.state.totalgame}
               </li>
           </ul>
         </div>

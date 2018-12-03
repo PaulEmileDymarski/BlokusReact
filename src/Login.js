@@ -11,17 +11,15 @@ class Login extends Component {
       super(props);
 
       this.state = {
-        user :{
           username: "",
           email: "",
-          password: ""
-        },
+          password: "",
         connect:false
       }
     }
 
     validateForm() {
-      return this.state.user.password.length > 0 && this.state.user.username.length > 0;
+      return this.state.password.length > 0 && this.state.username.length > 0;
     }
 
     validateConnection() {
@@ -57,18 +55,18 @@ class Login extends Component {
           <div className="Login">
             <form onSubmit={this.handleSubmit}>
             <FormGroup controlId="username" bsSize="large">
-              <ControlLabel>Pseudo : </ControlLabel>
+              <ControlLabel>Username : </ControlLabel>
               <FormControl
                 autoFocus
-                type="pseudo"
-                value={this.state.user.pseudo}
+                value={this.state.username}
                 onChange={this.handleChange}
+                type="username"
               />
               </FormGroup>
               <FormGroup controlId="password" bsSize="large">
                 <ControlLabel>Password : </ControlLabel>
                 <FormControl
-                  value={this.state.user.password}
+                  value={this.state.password}
                   onChange={this.handleChange}
                   type="password"
                 />
@@ -87,14 +85,14 @@ class Login extends Component {
             <Button block
                     disabled={this.validateConnection()}
                     bsSize="large">
-            <Link to={"/game/" + this.state.user.username}>
+            <Link to={"/game/" + this.state.username}>
             Jouer </Link>
             </Button>
 
             <Button block
-                    disabled={!this.validateConnection()}
+                    disabled={this.state.connect}
                     bsSize="large">
-            <Link to={"/profil/" + this.state.user.username}>Profil </Link>
+            <Link to={"/profil/" + this.state.username}>Profil </Link>
             </Button>
           </div>
         </div>

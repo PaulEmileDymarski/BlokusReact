@@ -22,11 +22,7 @@ class SignIn extends Component {
     }
 
     createUser() {
-      fetch("https://localhost:4000/user")
-      .then(res => {
-        console.log(res)
-        return res.json()
-      })
+
     }
 
     handleChange = event => {
@@ -37,6 +33,13 @@ class SignIn extends Component {
 
     handleSubmit = event => {
       event.preventDefault();
+      const data = this.state
+      console.log(data)
+      fetch("https://localhost:3000/user", {mode:'no-cors', method:'post', body:data})
+      .then(res => {
+        console.log(res)
+        return res.json()
+      })
     }
 
 
