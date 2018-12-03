@@ -32,22 +32,24 @@ class SignIn extends Component {
     }
 
     handleSubmit = event => {
-      event.preventDefault();
-      let data = this.state
-      data = ({username : this.state.username, email : this.state.email, password :this.state.password})
-      console.log(data)
-      fetch("http://localhost:3000/test/user", {method:'POST', headers: {'Content-Type':'application/x-www-form-urlencoded'},
-      body: {"username" : this.state.username, "email" : this.state.email, "password" : this.state.password}})
-      .then(response => {
-        if (response.ok) {
-          response.json().then(json => {
-            console.log(json);
-          });
-        }
-      }).catch(error => {
-        return error;
-    });
-    }
+          event.preventDefault();
+          let data = this.state
+          data = { username : this.state.username, email : this.state.email, password :this.state.password }
+          console.log(data)
+          fetch("http://localhost:3000/users/register", {
+            method:'POST',
+            headers: {'Content-Type':'application/json'},
+            body: JSON.stringify(data)})
+            .then(response => {
+              if (response.ok) {
+                response.json().then(json => {
+                  console.log(json);
+                });
+              }
+            }).catch(error => {
+            return error;
+            });
+          }
 
 
 

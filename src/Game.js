@@ -115,7 +115,7 @@ constructor(props) {
       for(let i = 0;i < 25;i += 5)
       {
         let firstCase = "undefined"
-        let lastCase = 0
+        let lastCase = "undefined"
         for(let y = 0;y < 5;y++)
         {
           if (piece[i+y] !== 0)
@@ -186,8 +186,15 @@ constructor(props) {
         }
         if (firstCase != "undefined")
         {
+          if(lastCase == "undefined") {
+            lastCase = firstCase
+          }
           if (Math.floor((firstCase + boardCaseSelected - decalageH - decalageV)/14) != (Math.floor((lastCase + boardCaseSelected - decalageH - decalageV)/14)))
           {
+            console.log(firstCase)
+            console.log(lastCase)
+            console.log(Math.floor((firstCase + boardCaseSelected - decalageH - decalageV)/14))
+            console.log(Math.floor((lastCase + boardCaseSelected - decalageH - decalageV)/14))
             console.log("ca depasse a droite ou a gauche")
             return { savedBoard }
           }
