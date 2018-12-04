@@ -45,11 +45,7 @@ table {
     border-spacing: 0;
 }
 
-.home {
- text-align: center;
- margin-top: 200px;
 
-}
 
 .board {
   height: 100%;
@@ -80,7 +76,7 @@ table {
 .piece {
 
   width: 150px;
-  height:165px;
+  height:168px;
 }
 
 .end {

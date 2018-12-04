@@ -1,10 +1,40 @@
 @media all and (min-width: 480px) {
   .Login {
+    font-family:Georgia,serif;
     padding: 60px 0;
+    color: white;
+    text-shadow: 1px 1px black;
+  }
+
+  .info {
+    margin-top: 10%;
+    font-size: 20px;
+    color:white;
+    text-shadow: 1px 1px black;
+    text-align: center;
+  }
+
+  .hiddenBtn1 {
+    margin-left: 42%;
+    margin-right: 35%;
+    margin-top: 6%;
+  }
+
+  .hiddenBtn2 {
+    margin-left: 45%;
+    margin-right: 35%;
+    margin-top: 6%;
   }
 
   .Login form {
     margin: 0 auto;
     max-width: 320px;
+  }
+
+  .btn {
+    font-size: 24px;
+    font-family:Georgia,serif;
+    text-decoration: none;
+    text-shadow:   1px 1px black;
   }
 }

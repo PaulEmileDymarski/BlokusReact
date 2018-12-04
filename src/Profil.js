@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import {BrowserRouter as Router, Route } from 'react-router-dom';
 import { Link } from'react-router-dom'
 import './App.css';
+import "./Login.css";
 import { Button, FormGroup, FormControl, ControlLabel } from "react-bootstrap";
 
 
@@ -24,37 +25,44 @@ class Profil extends Component {
       });
     }
 
-    componentDidMount = () => {
-      this.FetchData()
-    }
 
     render() {
+      this.FetchData()
       return (
         <div>
           <Button block
                   bsSize="large">
-          <Link to="/">Home </Link>
+          <Link to="/" style={{ textDecoration: 'none' , color: 'black' }}>Se déconnecter </Link>
           </Button>
           <Button block
-                  bsSize="large"
-                  disabled={this.state.connect}>
-                  <Link to={"/game/"+this.state.username}> New Game </Link>
+                  bsSize="large">
+                  <Link to={"/game/"+this.state.username} style={{ textDecoration: 'none' , color: 'black' }}> New Game </Link>
           </Button>
-          <ul>
-            {this.FetchData()}
-              <li>
-              Nom de l'utilisateur : {this.state.username}
-              </li>
-              <li>
-              Win rate : {this.state.winrate} %
-              </li>
-              <li>
-              Total de parties : {this.state.totalgame} games
-              </li>
-              <li>
-              Total de parties gagnées : {this.state.totalwin} wins
-              </li>
-          </ul>
+          <Button block
+                  onClick={()=>this.FetchData()}
+                  bsSize="large">
+                  Load
+          </Button>
+          <div class="info">
+            <ul>
+              {this.FetchData()}
+                <li>
+                Nom de l'utilisateur : {this.state.username}
+                </li>
+                <br></br>
+                <li>
+                Win rate : {this.state.winrate} %
+                </li>
+                <br></br>
+                <li>
+                Total de parties : {this.state.totalgame} games
+                </li>
+                <br></br>
+                <li>
+                Total de parties gagnées : {this.state.totalwin} wins
+                </li>
+            </ul>
+          </div>
         </div>
       )
     }

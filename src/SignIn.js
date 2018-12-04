@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import {BrowserRouter as Router, Route } from 'react-router-dom';
 import { Link } from'react-router-dom'
+import  { Redirect } from 'react-router-dom'
 import { Button, FormGroup, FormControl, ControlLabel } from "react-bootstrap";
 import "./Login.css";
 
@@ -19,10 +20,6 @@ class SignIn extends Component {
 
     validateForm() {
       return this.state.email.length > 0 && this.state.password.length > 0 && this.state.username.length > 0;
-    }
-
-    createUser() {
-
     }
 
     handleChange = event => {
@@ -45,6 +42,7 @@ class SignIn extends Component {
                 response.json().then(json => {
                   console.log(json);
                 });
+                return <Redirect to='/login'  />
               }
             }).catch(error => {
             return error;
@@ -57,17 +55,18 @@ class SignIn extends Component {
 
       return (
         <div>
-        <Button block
-                bsSize="large">
-        <Link to="/login">Se Connecter </Link>
-        </Button>
-        <Button block
-                bsSize="large">
-        <Link to="/">Home </Link>
-        </Button>
+          <div class="btn">
+            <Button bsStyle="link">
+            <Link to="/" style={{ textDecoration: 'none' , color: 'black' }}>Home </Link>
+            </Button>
+          </div>
+
           <div className="Login">
             <form onSubmit={this.handleSubmit}>
-            <FormGroup controlId="username" bsSize="large">
+            <FormGroup controlId="username" bsSize="large"
+            style={{ marginLeft:'10.5%',
+                      justifyContent: 'center',
+                      alignItems: 'center' }}>
               <ControlLabel>Username : </ControlLabel>
               <FormControl
                 autoFocus
@@ -76,7 +75,10 @@ class SignIn extends Component {
                 onChange={this.handleChange}
               />
             </FormGroup>
-              <FormGroup controlId="email" bsSize="large">
+              <FormGroup controlId="email" bsSize="large"
+              style={{ marginLeft:'20%',
+                        justifyContent: 'center',
+                        alignItems: 'center' }}>
                 <ControlLabel>Email : </ControlLabel>
                 <FormControl
                   autoFocus
@@ -85,7 +87,10 @@ class SignIn extends Component {
                   onChange={this.handleChange}
                 />
               </FormGroup>
-              <FormGroup controlId="password" bsSize="large">
+              <FormGroup controlId="password" bsSize="large"
+              style={{ marginLeft:'12%',
+                        justifyContent: 'center',
+                        alignItems: 'center' }}>
                 <ControlLabel>Password : </ControlLabel>
                 <FormControl
                   value={this.state.password}
@@ -93,15 +98,18 @@ class SignIn extends Component {
                   type="password"
                 />
               </FormGroup>
-              <Button
-                block
-                bsSize="large"
-                onClick={()=>this.createUser()}
-                disabled={!this.validateForm()}
-                type="submit"
-              >
-                Valider
-              </Button>
+              <div class="btn">
+                <Button
+                style={{ float:'right',
+                          marginRight:'36px',
+                          fontSize: '18px',
+                          justifyContent: 'center',
+                          alignItems: 'center' }}
+                  disabled={!this.validateForm()}
+                  type="submit">
+                   Valider
+                </Button>
+              </div>
             </form>
           </div>
         </div>

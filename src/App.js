@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import {BrowserRouter as Router, Route } from 'react-router-dom';
 import {Redirect} from 'react-router';
 import './App.css';
+import Wallpaper from './images/wallpaper.jpg'
 import Home from './Home.js';
 import Game from './Game.js';
 import Login from './Login.js';

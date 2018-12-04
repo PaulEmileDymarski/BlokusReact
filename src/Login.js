@@ -68,22 +68,28 @@ class Login extends Component {
     render() {
       let logORbtn;
       if (this.state.connect == true) {
-        logORbtn = <div><Button block
-                            bsSize="large"
-                            disabled={this.state.connect}>
-                            <Link to={"/game/"+this.state.username}> New Game </Link>
-                    </Button>
-
-                    <Button block
-                            disabled={this.state.connect}s
-                            bsSize="large">
-                            <Link to={"/profil/"+this.state.username}> Profil </Link>
-                    </Button></div>
+        logORbtn = <div class="hiddenBtn">
+                    <div class="hiddenBtn1">
+                        <Button block
+                                disabled={this.state.connect}>
+                                <Link to={"/game/"+this.state.username} style={{ textDecoration: 'none' , color: 'black' }}> New Game </Link>
+                        </Button>
+                      </div>
+                      <div class="hiddenBtn2">
+                        <Button block
+                                disabled={this.state.connect}>
+                                <Link to={"/profil/"+this.state.username} style={{ textDecoration: 'none' , color: 'black' }}> Profil </Link>
+                        </Button>
+                      </div>
+                    </div>
       }
       else {
         logORbtn = <div className="Login">
           <form onSubmit={this.handleSubmit}>
-          <FormGroup controlId="username" bsSize="large">
+          <FormGroup controlId="username" bsSize="large"
+            style={{  marginLeft:'10%',
+                      justifyContent: 'center',
+                      alignItems: 'center' }}>
             <ControlLabel>Username : </ControlLabel>
             <FormControl
               autoFocus
@@ -92,7 +98,10 @@ class Login extends Component {
               type="username"
             />
             </FormGroup>
-            <FormGroup controlId="password" bsSize="large">
+            <FormGroup controlId="password" bsSize="large"
+              style={{ marginLeft:'11.5%',
+                       justifyContent: 'center',
+                       alignItems: 'center' }}>
               <ControlLabel>Password : </ControlLabel>
               <FormControl
                 value={this.state.password}
@@ -101,21 +110,24 @@ class Login extends Component {
               />
             </FormGroup>
             <Button
-              block
-              bsSize="large"
+              style={{ float:'right',
+                        marginRight:'42px',
+                        fontSize: '18px',
+                        justifyContent: 'center',
+                        alignItems: 'center' }}
               disabled={!this.validateForm()}
               type="submit">
-              Login
+              Valider
             </Button>
           </form>
         </div>
       }
 
       return (
-        <div>
+        <div class="deco">
         <Button block
                 bsSize="large">
-        <Link to="/">Se déconnecter </Link>
+        <Link to="/" style={{ textDecoration: 'none' , color: 'black' }}>Se déconnecter </Link>
         </Button>
 
           <div>

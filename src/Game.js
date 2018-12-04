@@ -276,8 +276,11 @@ constructor(props) {
   }
   ////////////////////// End Game ////////////////////
   endGame () {
-    fetch("https://localhost:4000/endgame/"+this.state.game.id)
+    fetch("https://localhost:3000/endgame/"+this.state.game.id,{
+      method:'GET',
+      headers: {'Content-Type':'application/json'}})
     .then(response => response.json())
+
   }
 
   ////////////////////// Turn Pieces ////////////////////
@@ -367,7 +370,7 @@ constructor(props) {
       <div>
         <div class="board">
         <div class="endGame">
-          <Button block bsSize="large"  onClick={() => { if (window.confirm('Are you sure you want to end the game ?')){this.endGame()}}}><Link to="/"> Fin du Game </Link></Button>
+          <Button block bsSize="large"  onClick={() => { if (window.confirm('Are you sure you want to end the game ?')){this.endGame()}}}><Link to="/" style={{ textDecoration: 'none' , color: 'black' }}> Fin du Game </Link></Button>
 
         </div>
           {this.state.game.currentBoard.map((color, i) => (
@@ -376,7 +379,7 @@ constructor(props) {
                 <Then><br></br></Then>
               </If>
               <If condition={ color == 0 }>
-                <Then><img src={Gris} width="28" height="28" draggable="false"
+                <Then><img src={Blanc} width="28" height="28" draggable="false"
                   onDragOver={(e)=>this.onDragOver(e)}
                   onDrop={(e)=>this.onDrop(e, i)}/>
                 </Then>
