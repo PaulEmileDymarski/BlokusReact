@@ -17,31 +17,122 @@ constructor(props) {
   this.state = {
     allPieces:[
       {
-        shape:[
-          0,0,0,0,0,
-          0,0,0,0,0,
-          0,0,0,0,0,
-          0,0,0,0,1,
-          0,0,1,1,1,
-        ],
-        id:1,
-        played:false,
-        value:4,
-      },
-      {
-        shape:[
-          1,0,0,0,0,
-          1,0,0,0,0,
-          1,0,0,0,0,
-          1,0,0,0,0,
-          1,0,0,0,0,
-        ],
-        id:2,
-        played:false,
-        value:5,
-      },
+            id: 1,
+            value: 1,
+            shape: [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
+            played: false
+        },
+        {
+            id: 2,
+            value: 2,
+            shape: [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1],
+            played: false
+        },
+        {
+            id: 3,
+            value: 3,
+            shape: [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,0,0,0,0,1],
+            played: false
+        },
+        {
+            id: 4,
+            value: 3,
+            shape: [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1],
+            played: false
+        },
+        {
+            id: 5,
+            value: 4,
+            shape: [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,1,1,1],
+            played: false
+        },
+        {
+            id: 6,
+            value: 4,
+            shape: [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,1,1,1],
+            played: false
+        },
+
+        {
+            id: 7,
+            value: 4,
+            shape: [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1],
+            played: false
+        },
+        {
+            id: 8,
+            value: 4,
+            shape: [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,0,0,0,0,1,1],
+            played: false
+        },
+        {
+            id: 9,
+            value: 5,
+            shape: [0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,1,1,1,0,0,1,0,0],
+            played: false
+        },
+        {
+            id: 10,
+            value: 5,
+            shape: [0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,1,1,1,0,0,0,1,0,0],
+            played: false
+        },
+        {
+            id: 11,
+            value: 5,
+            shape: [0,0,0,0,0,0,0,0,0,0,0,0,1,1,0,0,0,1,1,0,0,0,1,0,0],
+            played: false
+        },
+        {
+            id: 12,
+            value: 5,
+            shape: [0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,1,1,0,0,0,0,1,1],
+            played: false
+        },
+        {
+            id: 13,
+            value: 5,
+            shape: [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,0,0,1,0,0],
+            played: false
+        },
+        {
+            id: 14,
+            value: 5,
+            shape: [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,0,1,0,0,0],
+            played: false
+        },
+        {
+            id: 15,
+            value: 5,
+            shape: [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,0,0,1,0,1],
+            played: false
+        },
+        {
+            id: 16,
+            value: 5,
+            shape: [0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,1,0,0,0,1,1,1],
+            played: false
+        },
+        {
+            id: 17,
+            value: 5,
+            shape: [0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,1,0,0,0,0,1,1,1],
+            played: false
+        },
+        {
+            id: 18,
+            value: 5,
+            shape: [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,0,1,1,0,0],
+            played: false
+        },
+        {
+            id: 19,
+            value: 5,
+            shape: [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,1],
+            played: false
+        }
     ],
-    game :
+    game:
     {
       id :1,
       currentBoard :[
@@ -71,18 +162,15 @@ constructor(props) {
   }
 
   startGame () {
-    fetch("http://localhost:3000/newgame/"+this.props.match.params.username, {
-      method:'GET',
-      headers: {'Content-Type':'application/json'}})
-      .then(response => {
-        if (response.ok) {
-          this.setState((prevState) => {
-            return { response }
-          })
-        }
-      }).catch(error => {
+    /*
+    fetch("http://localhost:3000/test/newgame/"+this.props.match.params.username)
+      .then(response => response.json())
+      .then(data => this.setState({
+        game:data.game, allPieces:data.allPieces
+      })
+    ).catch(error => {
       return error;
-      });
+    });*/
     }
 
 
@@ -243,18 +331,24 @@ constructor(props) {
         cmptBoard += 14
       }
     return { game }
-    },() => {if(placed == true){this.endTurn()}})
-  }
+  },() => {if(placed == true)
+    {
+      this.state.selectedPiece.played=true
+      this.endTurn()
+    }
+  })
+}
 
 ///////////////////////// Fin de Tour ///////////////////////////
   endTurn () {
+/*
     fetch("https://localhost:3000/endturn/"+this.state.game.id+"/"+this.state.selectedPiece.id)
       .then(response => response.json())
       .then(data => this.setState({ game : data.game, allPieces: data.allPieces }))
       .catch(error => {
       return error;
-      });
-
+    });
+*/
 
     this.setState((prevState) => {
       let newPieces = []
@@ -288,10 +382,9 @@ constructor(props) {
   }
   ////////////////////// End Game ////////////////////
   endGame () {
-    fetch("https://localhost:3000/endgame/"+this.state.game.id,{
-      method:'GET',
-      headers: {'Content-Type':'application/json'}})
-    .then(response => response.json())
+/*
+    fetch("https://localhost:3000/endgame/"+this.state.game.id)
+    .then(response => response.json())*/
 
   }
 
@@ -383,7 +476,6 @@ constructor(props) {
         <div class="board">
         <div class="endGame">
           <Button block bsSize="large"  onClick={() => { if (window.confirm('Are you sure you want to end the game ?')){this.endGame()}}}><Link to="/" style={{ textDecoration: 'none' , color: 'black' }}> Fin du Game </Link></Button>
-
         </div>
           {this.state.game.currentBoard.map((color, i) => (
             <span class="case" key={i} >
