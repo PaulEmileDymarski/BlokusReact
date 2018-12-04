@@ -45,26 +45,28 @@ constructor(props) {
     {
       id :1,
       currentBoard :[
-        2,0,0,0,0,0,0,0,0,0,0,0,0,0,
-        2,2,2,0,0,0,0,0,0,0,0,0,0,0,
-        0,0,0,2,0,0,0,0,0,0,0,0,0,0,
-        0,0,0,2,2,0,0,0,0,0,0,0,0,0,
-        0,0,0,0,2,0,0,0,0,0,0,0,0,0,
         0,0,0,0,0,0,0,0,0,0,0,0,0,0,
         0,0,0,0,0,0,0,0,0,0,0,0,0,0,
         0,0,0,0,0,0,0,0,0,0,0,0,0,0,
         0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-        0,0,0,0,0,0,0,0,0,0,1,1,0,0,
-        0,0,0,0,0,0,0,0,0,0,1,0,0,0,
-        0,0,0,0,0,0,0,0,0,0,0,1,1,0,
-        0,0,0,0,0,0,0,0,0,0,0,0,1,1,
-        0,0,0,0,0,0,0,0,0,0,0,0,0,1],
+        0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+        0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+        0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+        0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+        0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+        0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+        0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+        0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+        0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+        0,0,0,0,0,0,0,0,0,0,0,0,0,0],
         userId : 1,
         turn : 2,
     },
     selectedCase:0,
     selectedPiece:0,
     caseDrop:0,
+    firstRedCase:true,
+    firstBlueCase:true,
    }
   }
 
@@ -149,6 +151,7 @@ constructor(props) {
               {
                 verifyDiagonal = true
               }
+
             }
             //pareil pour le coté rouge
             else
@@ -211,9 +214,18 @@ constructor(props) {
         }
         cmptBoard += 14
       }
+      //si aucune case n'a de diagonale avec sa meme couleur (sauf la premiere pièce)
       if (verifyDiagonal == false) {
-        console.log("c'est pas diagonale")
-        return { savedBoard }
+        if (this.state.firstRedCase==true){
+          this.setState({firstRedCase : false})
+        }
+        else if (this.state.firstBlueCase==true) {
+          this.setState({firstBlueCase : false})
+        }
+        else {
+          console.log("c'est pas diagonale")
+          return { savedBoard }
+        }
       }
 
       //Boucle qui place la pièce dans le tableau
