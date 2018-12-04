@@ -1,7 +1,7 @@
 
 ## Available Scripts
 
-To run the project :
+To run the project, extract the project then :
 
 ### `npm install`
 
